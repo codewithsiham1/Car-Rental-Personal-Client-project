@@ -1,9 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+
+import Useauth from '../../Hooks/Useauth/Useauth';
+import { toast } from 'react-toastify';
 
 const AllTutors = () => {
     const [tutors,setTuros]=useState([]);
     const [loading,setLoading]=useState([]);
+    const {user}=Useauth()
     useEffect(()=>{
         fetch('./Tutor.json')
         .then(res=>res.json())
@@ -13,18 +17,12 @@ const AllTutors = () => {
         })
     },[])
       const handleAddToCart = (tutor) => {
-        // এখানে তুমি localStorage বা context বা database-এ যুক্ত করতে পারো।
-        const cart = JSON.parse(localStorage.getItem("studyCart")) || [];
-        const alreadyAdded = cart.find(item => item._id === tutor._id);
-
-        if (alreadyAdded) {
-            toast.warning("Already added to cart!");
-            return;
+        if(user && user.email){
+        //   send cart item to the database
         }
-
-        cart.push(tutor);
-        localStorage.setItem("studyCart", JSON.stringify(cart));
-        toast.success("Added to cart!");
+        else{
+            toast.error("User Is not defined")
+        }
     };
     return (
    <>

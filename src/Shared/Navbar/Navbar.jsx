@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import logo from "../../assets/image/logo.jpg.png";
 import { Link } from 'react-router-dom';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
+import { FaCartPlus } from 'react-icons/fa';
 
 const Navbar = () => {
     const {user,logOut,updateprofile}=useContext(Authcontext)
@@ -27,6 +28,12 @@ const Navbar = () => {
                     <Link to="/all-tutor" className="hover:text-blue-600 transition">All Tutors</Link>
                     <Link to="/annousment" className="hover:text-blue-600 transition">Announcements</Link>
                     <Link to="/contact" className="hover:text-blue-600 transition">Contact Us</Link>
+                    <Link to="/">
+                    <button className="btn">
+                     <FaCartPlus />
+                  <div className="badge badge-secondary">+99</div>
+                  </button>
+                    </Link>
                     {
                         user ?<>
                         <img src={user.photoURL} alt={user.displayName||"User Photo" } className='w-8 h-8 rounded-full object-cover'  title={user.displayName}/>
