@@ -5,12 +5,15 @@ import Useauth from '../../Hooks/Useauth/Useauth';
 
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
+import UseAxiosSecure from '../../Hooks/UseaxiosSecure/UseAxiosSecure';
+
 
 const AllTutors = () => {
     const [tutors,setTuros]=useState([]);
     const [loading,setLoading]=useState([]);
     const {user}=Useauth()
     const navigate=useNavigate()
+    const axiosSecure=UseAxiosSecure()
     useEffect(()=>{
         fetch('./Tutor.json')
         .then(res=>res.json())
@@ -24,11 +27,26 @@ const AllTutors = () => {
         if(user && user.email){
              console.log("User logged in:", user.email);
         //   send cart item to the database
-        const cartItem={
-            tutorId:_id,
-            email:user.email,
-            name,image,price
+        const cartItem = {
+      tutorId: tutor._id,
+      email: user.email,
+      name: tutor.tutorName,
+      image: tutor.tutorImage,
+      price: tutor.registrationFee
+    };
+    axiosSecure.post('/cart',cartItem)
+    .then((res)=>{
+        console.log(res.data)
+        if(res.data.insertedId){
+            Swal.fire({
+  position: "top-end",
+  icon: "success",
+  title:`${name} added to your cart`,
+  showConfirmButton: false,
+  timer: 1500
+});
         }
+    })
         }
         else{       
 Swal.fire({
