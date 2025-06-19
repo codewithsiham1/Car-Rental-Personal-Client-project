@@ -1,0 +1,38 @@
+[
+  {
+    "reviewId": "r100",
+    "sessionId": "web001",
+    "reviewerEmail": "john.doe@example.com",
+    "reviewerName": "John Doe",
+    "rating": 5,
+    "comment": "This website has an amazing UI and very user-friendly experience. Highly recommended!",
+    "timestamp": "2025-06-18T15:00:00"
+  },
+  {
+    "reviewId": "r101",
+    "sessionId": "web001",
+    "reviewerEmail": "jane.smith@example.com",
+    "reviewerName": "Jane Smith",
+    "rating": 4,
+    "comment": "Great platform with useful features. It helped me a lot in my study planning.",
+    "timestamp": "2025-06-19T09:30:00"
+  },
+  {
+    "reviewId": "r102",
+    "sessionId": "web001",
+    "reviewerEmail": "alex.khan@example.com",
+    "reviewerName": "Alex Khan",
+    "rating": 5,
+    "comment": "Excellent collaboration tools and session booking made super easy. Kudos to the dev team!",
+    "timestamp": "2025-06-20T12:45:00"
+  },
+  {
+    "reviewId": "r103",
+    "sessionId": "web001",
+    "reviewerEmail": "fatima.begum@example.com",
+    "reviewerName": "Fatima Begum",
+    "rating": 4,
+    "comment": "Well structured content and responsive design. Love the study materials section.",
+    "timestamp": "2025-06-21T08:20:00"
+  }
+]
