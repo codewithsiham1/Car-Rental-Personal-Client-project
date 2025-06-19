@@ -2,12 +2,15 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import Useauth from '../../Hooks/Useauth/Useauth';
-import { toast } from 'react-toastify';
+
+import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router-dom';
 
 const AllTutors = () => {
     const [tutors,setTuros]=useState([]);
     const [loading,setLoading]=useState([]);
     const {user}=Useauth()
+    const navigate=useNavigate()
     useEffect(()=>{
         fetch('./Tutor.json')
         .then(res=>res.json())
@@ -17,11 +20,32 @@ const AllTutors = () => {
         })
     },[])
       const handleAddToCart = (tutor) => {
+        console.log("Clicked!", tutor);
         if(user && user.email){
+             console.log("User logged in:", user.email);
         //   send cart item to the database
+        const cartItem={
+            tutorId:_id,
+            email:user.email,
+            name,image,price
         }
-        else{
-            toast.error("User Is not defined")
+        }
+        else{       
+Swal.fire({
+  title: "You Are Not Loged In?",
+  text: "Please login ad to the cart!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, login!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    // send tho the user to the login page
+    navigate('/login')
+   
+  }
+});
         }
     };
     return (
