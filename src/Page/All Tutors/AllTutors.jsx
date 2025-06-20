@@ -6,6 +6,7 @@ import Useauth from '../../Hooks/Useauth/Useauth';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
 import UseAxiosSecure from '../../Hooks/UseaxiosSecure/UseAxiosSecure';
+import Usecart from '../../Hooks/Usecart/Usecart';
 
 
 const AllTutors = () => {
@@ -14,6 +15,7 @@ const AllTutors = () => {
     const {user}=Useauth()
     const navigate=useNavigate()
     const axiosSecure=UseAxiosSecure()
+    const [,refetch]=Usecart()
     useEffect(()=>{
         fetch('./Tutor.json')
         .then(res=>res.json())
@@ -45,6 +47,8 @@ const AllTutors = () => {
   showConfirmButton: false,
   timer: 1500
 });
+// refetch
+refetch()
         }
     })
         }

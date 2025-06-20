@@ -37,7 +37,8 @@ const Register = () => {
     const photo=form.photo.value;
     const email=form.email.value;
    const password=form.password.value;
-   console.log(name,email,password)
+   const role=form.role.value;
+   console.log(name,email,password,role)
      const from = location.state?.from?.pathname || "/";
    createUser(email,password)
    .then(result=>{
@@ -101,10 +102,20 @@ const Register = () => {
           </label>
           <input value={password} onChange={handleOnchance} type="password" name='password' placeholder="Enter Your  password" className="input input-bordered" required />
           {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
-          <label className="label">
-            <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
-          </label>
+        
         </div>
+        {/* role */}
+          <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Select Role</span>
+                </label>
+                <select name="role" className="select select-bordered" required>
+                  <option value="">Select a role</option>
+                  <option value="student">Student</option>
+                  <option value="tutor">Tutor</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
         <div className="form-control mt-6">
           <button className="btn btn-primary">Register</button>
         </div>

@@ -9,6 +9,8 @@ import Register from "../Authtication/Register/Register";
 import ErrorElement from "../Page/ErrorElement/ErrorElement";
 import Privateroute from "./Privateroute";
 import SeassionDetails from "../Page/SeassionDetails/SeassionDetails";
+import Dashboard from "../Layouts/Dashboard/Dashboard";
+import Cart from "../Page/Dashboard/Cart/Cart";
 
 const router=createBrowserRouter([
     {
@@ -43,6 +45,16 @@ const router=createBrowserRouter([
             {
                 path:"/session/:id",
                 element:<Privateroute><SeassionDetails></SeassionDetails></Privateroute>
+            }
+        ]
+    },
+    {
+        path:"dashboard",
+        element:<Dashboard></Dashboard>,
+        children:[
+            {
+              path:"cart",
+              element:<Cart></Cart>  
             }
         ]
     }

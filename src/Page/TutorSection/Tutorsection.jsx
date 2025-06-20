@@ -7,11 +7,18 @@ import 'react-toastify/dist/ReactToastify.css';
 // Make sure to import these CSS globally (App.jsx or main.jsx)
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useNavigate } from 'react-router-dom';
+import { axiosSecure } from '../../Hooks/UseaxiosSecure/UseAxiosSecure';
+import Usecart from '../../Hooks/Usecart/Usecart';
+import Useauth from '../../Hooks/Useauth/Useauth';
+import Swal from 'sweetalert2';
 
 const Tutorsection = () => {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-
+ const navigate=useNavigate();
+ const {user}=Useauth()
+ const [,refetch]=Usecart()
   useEffect(() => {
     fetch('/Tutor.json') // must be inside public/
       .then(res => res.json())
@@ -27,7 +34,42 @@ const Tutorsection = () => {
   }, []);
 
   const handleAddToCart = (session) => {
-    toast.success(`${session.sessionTitle} added to cart!`);
+      console.log('clicked',session)
+      if(user && user.email){
+        // TODO:send cart to database
+        const cartItem = {
+      tutorId: session._id,
+      email: session.email,
+      name: session.tutorName,
+      image: session.tutorImage,
+      price: session.registrationFee
+    };
+    axiosSecure.post('/cart',cartItem)
+    .then((res)=>{
+      console.log(res.data)
+      if(res.data.insertedId){
+        toast.success("sucessfully add to your cart")
+         // refetch
+    refetch()
+      }
+    })
+   
+      }
+      else{
+        Swal.fire({
+  title: "You Are Not LogedIn?",
+  text: "Please Login Add To the cart!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes,login!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    navigate('/login')
+  }
+});
+      }
   };
 
   const sliderSettings = {
