@@ -22,7 +22,7 @@ const Authprovider = ({children}) => {
     }
     const googlelogin=()=>{
       setLoading(true)
-      signInWithPopup(auth,googleProvider)
+     return signInWithPopup(auth,googleProvider)
     }
     const githublogin=()=>{
       setLoading(true)

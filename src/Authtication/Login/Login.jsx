@@ -6,9 +6,12 @@ import { Helmet } from 'react-helmet-async';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import UseAxiosPublic from '../../Hooks/UseAxiosPublic/UseAxiosPublic';
+import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 
 const Login = () => {
-  const { signIn, googlelogin, githublogin } = useContext(Authcontext);
+  const { signIn} = useContext(Authcontext);
+ 
   const captchaRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const navigate = useNavigate();
@@ -27,6 +30,7 @@ const Login = () => {
 
     signIn(email, password)
       .then((result) => {
+     
         toast.success('Login successful!');
         navigate(from, { replace: true });
       })
@@ -46,16 +50,8 @@ const Login = () => {
     }
   };
 
-  const handleGoogleLogin = () => {
-    googlelogin()
-      .then((result) => {
-        toast.success("Logged in with Google!");
-        navigate(from, { replace: true });
-      })
-      .catch((error) => {
-        toast.error(`Google login failed: ${error.message}`);
-      });
-  };
+
+
 
   return (
     <>
@@ -110,9 +106,7 @@ const Login = () => {
             </form>
 
             <div className="px-8 pb-4">
-              <button onClick={handleGoogleLogin} className="btn btn-outline w-full mb-2">
-                Continue with Google
-              </button>
+            <SocialLogin></SocialLogin>
               <Link to="/register">
                 <button className="btn btn-link w-full">Don't have an account? Register</button>
               </Link>

@@ -7,12 +7,16 @@ import auth from '../../Firebase/Firebase';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { updateProfile } from 'firebase/auth';
+import UseAxiosPublic from '../../Hooks/UseAxiosPublic/UseAxiosPublic';
+import SocialLogin from '../../Shared/SocialLogin/SocialLogin';
 const Register = () => {
+  const axiosPublic=UseAxiosPublic();
    const [error,setError]=useState('')
    const [password,setPassword]=useState('')
    const {createUser}=useContext(Authcontext)
    const navigate=useNavigate();
    const location=useLocation();
+   
    const handleOnchance=(e)=>{
   const value=e.target.value;
   setPassword(value)
@@ -39,16 +43,31 @@ const Register = () => {
    const password=form.password.value;
    const role=form.role.value;
    console.log(name,email,password,role)
-     const from = location.state?.from?.pathname || "/";
+  const from = location.state?.from?.pathname || "/";
+
    createUser(email,password)
    .then(result=>{
+    form.reset();
      toast.success('User registered successfully!');
     const user=result.user;
     console.log(user)
     updateProfile(user,{displayName:name,photoURL:photo})
+ 
     .then(()=>{
+         // create user entry in the database
+    const userInfo={
+      name:name,
+      email:email,
+    }
+    axiosPublic.post('/user',userInfo)
+    .then(res=>{
+      if(res.data.insertedId){
+        console.log('user axios public')
+         toast.success("Sucessfully Update")
+      }
+    })
  console.log("user profile info updated")
- toast.success("Sucessfully Update")
+
     })
     .catch((error)=>{
    console.log(error)
@@ -62,6 +81,8 @@ const Register = () => {
     });
 
   }
+
+
     return (
 <>
 <Helmet>
@@ -116,6 +137,7 @@ const Register = () => {
                   <option value="admin">Admin</option>
                 </select>
               </div>
+              <SocialLogin></SocialLogin>
         <div className="form-control mt-6">
           <button className="btn btn-primary">Register</button>
         </div>
