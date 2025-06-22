@@ -13,7 +13,7 @@ const Register = () => {
   const axiosPublic=UseAxiosPublic();
    const [error,setError]=useState('')
    const [password,setPassword]=useState('')
-   const {createUser}=useContext(Authcontext)
+   const {createUser,refetchUserRole}=useContext(Authcontext)
    const navigate=useNavigate();
    const location=useLocation();
   
@@ -65,6 +65,7 @@ const Register = () => {
       if(res.data.insertedId){
         console.log('user axios public')
          toast.success("Sucessfully Update")
+         refetchUserRole(email)
       }
     })
  console.log("user profile info updated")

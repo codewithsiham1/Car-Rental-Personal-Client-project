@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaShoppingCart, FaUserAlt } from 'react-icons/fa';
+import { FaBookOpen, FaCalendarAlt, FaCalendarCheck, FaHome, FaShoppingCart, FaStickyNote, FaUpload, FaUserAlt } from 'react-icons/fa';
 import { IoHomeSharp } from 'react-icons/io5';
 import { PiBriefcaseMetalThin } from 'react-icons/pi';
 import { SiSession } from 'react-icons/si';
@@ -18,7 +18,7 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink to="/dashboard/admin/home">
-                  <FaShoppingCart /><span> Admin Home</span>
+                  <FaHome /><span> Admin Home</span>
                 </NavLink>
               </li>
               <li>
@@ -28,12 +28,12 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/admin/sessions">
-                  <SiSession /><span> View all study sessions</span>
+                  <FaCalendarAlt /><span> View all study sessions</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/admin/materials">
-                  <PiBriefcaseMetalThin /><span> View all materials</span>
+                  <FaBookOpen /><span> View all materials</span>
                 </NavLink>
               </li>
             </>
@@ -46,17 +46,17 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/tutor/sessions">
-                  <SiSession /><span> My Sessions</span>
+                  <	FaCalendarCheck/><span> My Sessions</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/tutor/materials/upload">
-                  <PiBriefcaseMetalThin /><span> Upload materials</span>
+                  <FaUpload /><span> Upload materials</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/tutor/materials">
-                  <PiBriefcaseMetalThin /><span> View all materials</span>
+                  <	FaBookOpen /><span> View all materials</span>
                 </NavLink>
               </li>
             </>
@@ -70,17 +70,17 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/student/booked-sessions">
-                  <SiSession /><span> My Booked Sessions</span>
+                  <FaCalendarCheck /><span> My Booked Sessions</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/student/notes">
-                  <FaUserAlt /><span> My Notes</span>
+                  <FaStickyNote /><span> My Notes</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/student/materials">
-                  <PiBriefcaseMetalThin /><span> My Materials</span>
+                  <	FaBookOpen /><span> My Materials</span>
                 </NavLink>
               </li>
             </>

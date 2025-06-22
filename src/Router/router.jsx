@@ -11,18 +11,18 @@ import Privateroute from "./Privateroute";
 import SeassionDetails from "../Page/SeassionDetails/SeassionDetails";
 import Dashboard from "../Layouts/Dashboard/Dashboard";
 import Cart from "../Page/Dashboard/Cart/Cart";
-import Alluser from "../Page/Dashboard/Alluser/Alluser";
 import AdminHome from "../Page/Dashboard/AdminHome/AdminHome";
 import TutorHome from "../Page/DashboardTutor/TutorHome/TutorHome";
 import StudentHome from "../Page/DashboardStudent/StudentHome/StudentHome";
 import ViewAllSessions from "../Page/Dashboard/ViewAllSessions/ViewAllSessions";
 import ViewAllMaterials from "../Page/Dashboard/ViewAllMaterials/ViewAllMaterials";
-import MyBookedSessions from "../Page/DashboardTutor/MyBookedSessions/MyBookedSessions";
 import MyNotes from "../Page/DashboardStudent/StudentHome/MyNotes/MyNotes";
 import StudentMetarils from "../Page/DashboardStudent/StudentMetarils/StudentMetarils";
 import MySessions from "../Page/DashboardTutor/MySessions/MySessions";
 import UploadMaterials from "../Page/DashboardTutor/UploadMaterials/UploadMaterials";
 import TutorMaterials from "../Page/DashboardTutor/TutorMaterials/TutorMaterials";
+import MyBookedSessions from "../Page/DashboardStudent/MyBookedSessions/MyBookedSessions";
+import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
 
 const router=createBrowserRouter([
     {
@@ -76,7 +76,7 @@ const router=createBrowserRouter([
             },
             {
                 path:"admin/users",
-                element:<Alluser></Alluser>
+                element:<Viewalluser></Viewalluser>
             },
             {
             path:"admin/sessions",
@@ -93,7 +93,7 @@ const router=createBrowserRouter([
             element:<TutorHome></TutorHome>
           },
           {
-            path:"admin/users",
+            path:"tutor/sessions",
             element:<MySessions></MySessions>
           },
           {

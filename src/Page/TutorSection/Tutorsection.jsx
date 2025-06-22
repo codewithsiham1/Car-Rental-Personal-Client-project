@@ -39,7 +39,7 @@ const Tutorsection = () => {
         // TODO:send cart to database
         const cartItem = {
       tutorId: session._id,
-      email: session.email,
+      email: user.email,
       name: session.tutorName,
       image: session.tutorImage,
       price: session.registrationFee

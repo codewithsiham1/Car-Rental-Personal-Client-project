@@ -29,9 +29,15 @@ const Navbar = () => {
                     <Link to="/" className="hover:text-blue-600 transition">Home</Link>
                     <Link to="/all-tutor" className="hover:text-blue-600 transition">All Tutors</Link>
                     
-  {userRole === 'student' && <NavLink to="/dashboard/student/home">Dashboard</NavLink>}
+                    {
+                   user && userRole && (
+                    <>
+                      {userRole === 'student' && <NavLink to="/dashboard/student/home">Dashboard</NavLink>}
   {userRole === 'tutor'   && <NavLink to="/dashboard/tutor/home">Dashboard</NavLink>}
   {userRole === 'admin'   && <NavLink to="/dashboard/admin/home">Dashboard</NavLink>}
+                    </>
+                   )
+                      }
                     <Link to="/annousment" className="hover:text-blue-600 transition">Announcements</Link>
                     <Link to="/contact" className="hover:text-blue-600 transition">Contact Us</Link>
                     <Link to="/dashboard/cart">
