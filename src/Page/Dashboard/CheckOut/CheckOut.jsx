@@ -60,6 +60,16 @@ const CheckOut = () => {
         if(paymentIntent.status==='succeeded'){
             console.log('transtion id',paymentIntent.id)
             setTranstionId(paymentIntent.id)
+            // now save the payment in the database
+            const payment={
+                email:user.email,
+                price:totalprice,
+                date:new Date(),
+                transtionId:paymentIntent.id,
+                cartId:cart.map(item=>item._id)
+            }
+           const res=await axiosSecure.post('/payments',payment)
+           console.log('payment saved',res)
         }
     }
     }
@@ -85,7 +95,7 @@ const CheckOut = () => {
         Pay
       </button>
       <p className='text-red-500'>{error}</p>
-      {transtionId &&<P className="text-green-500">Your Transtion Id:{transtionId}</P>}
+      {transtionId && <p className="text-green-500">Your Transaction Id: {transtionId}</p>}
        </form>
     );
 };
