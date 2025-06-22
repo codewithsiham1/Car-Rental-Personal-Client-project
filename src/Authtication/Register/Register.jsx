@@ -16,7 +16,7 @@ const Register = () => {
    const {createUser}=useContext(Authcontext)
    const navigate=useNavigate();
    const location=useLocation();
-   
+  
    const handleOnchance=(e)=>{
   const value=e.target.value;
   setPassword(value)
@@ -58,6 +58,7 @@ const Register = () => {
     const userInfo={
       name:name,
       email:email,
+       role: role,
     }
     axiosPublic.post('/user',userInfo)
     .then(res=>{

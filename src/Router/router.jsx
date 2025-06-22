@@ -11,6 +11,18 @@ import Privateroute from "./Privateroute";
 import SeassionDetails from "../Page/SeassionDetails/SeassionDetails";
 import Dashboard from "../Layouts/Dashboard/Dashboard";
 import Cart from "../Page/Dashboard/Cart/Cart";
+import Alluser from "../Page/Dashboard/Alluser/Alluser";
+import AdminHome from "../Page/Dashboard/AdminHome/AdminHome";
+import TutorHome from "../Page/DashboardTutor/TutorHome/TutorHome";
+import StudentHome from "../Page/DashboardStudent/StudentHome/StudentHome";
+import ViewAllSessions from "../Page/Dashboard/ViewAllSessions/ViewAllSessions";
+import ViewAllMaterials from "../Page/Dashboard/ViewAllMaterials/ViewAllMaterials";
+import MyBookedSessions from "../Page/DashboardTutor/MyBookedSessions/MyBookedSessions";
+import MyNotes from "../Page/DashboardStudent/StudentHome/MyNotes/MyNotes";
+import StudentMetarils from "../Page/DashboardStudent/StudentMetarils/StudentMetarils";
+import MySessions from "../Page/DashboardTutor/MySessions/MySessions";
+import UploadMaterials from "../Page/DashboardTutor/UploadMaterials/UploadMaterials";
+import TutorMaterials from "../Page/DashboardTutor/TutorMaterials/TutorMaterials";
 
 const router=createBrowserRouter([
     {
@@ -52,10 +64,64 @@ const router=createBrowserRouter([
         path:"dashboard",
         element:<Privateroute><Dashboard></Dashboard></Privateroute>,
         children:[
+            // coomon
             {
               path:"cart",
               element:<Cart></Cart>  
-            }
+            },
+            // admin route
+            {
+          path:"admin/home",
+          element:<AdminHome></AdminHome>
+            },
+            {
+                path:"admin/users",
+                element:<Alluser></Alluser>
+            },
+            {
+            path:"admin/sessions",
+            element:<ViewAllSessions></ViewAllSessions>
+            },
+            {
+            path:"admin/materials",
+            element:<ViewAllMaterials></ViewAllMaterials>
+            },
+
+            // tutor
+          {
+            path:"tutor/home",
+            element:<TutorHome></TutorHome>
+          },
+          {
+            path:"admin/users",
+            element:<MySessions></MySessions>
+          },
+          {
+           path:"tutor/materials/upload",
+           element:<UploadMaterials></UploadMaterials>
+          },
+          {
+         path:"tutor/materials",
+         element:<TutorMaterials></TutorMaterials>
+          },
+     
+        //   student
+        {
+            path:"student/home",
+            element:<StudentHome></StudentHome>
+        },
+             {
+          path:"student/booked-sessions",
+          element:<MyBookedSessions></MyBookedSessions>
+          },
+          {
+           path:"student/notes",
+           element:<MyNotes></MyNotes>
+          },
+          {
+          path:"student/materials",
+          element:<StudentMetarils></StudentMetarils>
+          },
         ]
     }
 ])

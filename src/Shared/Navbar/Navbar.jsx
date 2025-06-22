@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import logo from "../../assets/image/logo.jpg.png";
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
 import { FaCartPlus } from 'react-icons/fa';
 import Usecart from '../../Hooks/Usecart/Usecart';
 
 const Navbar = () => {
-    const {user,logOut,updateprofile}=useContext(Authcontext)
+    const {user,logOut,updateprofile,userRole}=useContext(Authcontext)
     const [cart]=Usecart()
     const handleLogout=()=>{
       logOut()
@@ -28,6 +28,10 @@ const Navbar = () => {
                 <div className='flex flex-row gap-4 text-lg font-semibold text-gray-700'>
                     <Link to="/" className="hover:text-blue-600 transition">Home</Link>
                     <Link to="/all-tutor" className="hover:text-blue-600 transition">All Tutors</Link>
+                    
+  {userRole === 'student' && <NavLink to="/dashboard/student/home">Dashboard</NavLink>}
+  {userRole === 'tutor'   && <NavLink to="/dashboard/tutor/home">Dashboard</NavLink>}
+  {userRole === 'admin'   && <NavLink to="/dashboard/admin/home">Dashboard</NavLink>}
                     <Link to="/annousment" className="hover:text-blue-600 transition">Announcements</Link>
                     <Link to="/contact" className="hover:text-blue-600 transition">Contact Us</Link>
                     <Link to="/dashboard/cart">
