@@ -2,6 +2,7 @@ import { CardCvcElement, CardElement, useElements, useStripe } from '@stripe/rea
 import React, { useEffect, useState } from 'react';
 import UseAxiosSecure from '../../../Hooks/UseaxiosSecure/UseAxiosSecure';
 import Usecart from '../../../Hooks/Usecart/Usecart';
+import Useauth from '../../../Hooks/Useauth/Useauth';
 
 const CheckOut = () => {
     const [error,setError]=useState('')
@@ -11,11 +12,13 @@ const CheckOut = () => {
     const [cart]=Usecart();
     const [clientSecret,setClientSecret]=useState('')
     const totalprice=cart.reduce((total,item)=>total+item.price,0)
+    const {user}=Useauth()
+    const [transtionId,setTranstionId]=useState('')
     useEffect(()=>{
      axiosSecure.post('/create-payment-intent',{price:totalprice})
      .then((res)=>{
         console.log(res.data.clientSecret)
-        setClientSecret(res.data.cli)
+        setClientSecret(res.data.clientSecret)
      })
     },[axiosSecure,totalprice])
     const handleSubmit=async(event)=>{
@@ -39,6 +42,26 @@ const CheckOut = () => {
         console.log('payment method',paymentMethod)
         setError('')
     }
+    // confirm payment
+    const {paymentIntent,error:confirmError}=await stripe.confirmCardPayment(clientSecret,{
+      payment_method:{
+        card:card,
+        billing_details:{
+            email:user?.email || 'anonymous',
+             name:user?.displayName || 'anonymous'
+        }
+      }
+    })
+    if(confirmError){
+        console.log('confirm error')
+    }
+    else{
+        console.log('payment intent',paymentIntent)
+        if(paymentIntent.status==='succeeded'){
+            console.log('transtion id',paymentIntent.id)
+            setTranstionId(paymentIntent.id)
+        }
+    }
     }
     return (
        <form onSubmit={handleSubmit}>
@@ -58,10 +81,11 @@ const CheckOut = () => {
           },
         }}
       />
-           <button className='btn btn-primary my-2' type="submit" disabled={!stripe || !clientSecret}>
+           <button className='btn btn-primary my-2' type="submit" disabled={!stripe}>
         Pay
       </button>
       <p className='text-red-500'>{error}</p>
+      {transtionId &&<P className="text-green-500">Your Transtion Id:{transtionId}</P>}
        </form>
     );
 };
