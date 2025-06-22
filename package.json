@@ -28,6 +28,7 @@
     "react-toastify": "^11.0.5",
     "slick-carousel": "^1.8.1",
     "sort-by": "^1.2.0",
+    "stripe": "^18.2.1",
     "sweetalert2": "^11.22.0",
     "swiper": "^11.2.8"
   },
