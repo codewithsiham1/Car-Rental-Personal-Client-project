@@ -23,6 +23,7 @@ import UploadMaterials from "../Page/DashboardTutor/UploadMaterials/UploadMateri
 import TutorMaterials from "../Page/DashboardTutor/TutorMaterials/TutorMaterials";
 import MyBookedSessions from "../Page/DashboardStudent/MyBookedSessions/MyBookedSessions";
 import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
+import Payment from "../Page/Dashboard/Payment/Payment";
 
 const router=createBrowserRouter([
     {
@@ -68,6 +69,10 @@ const router=createBrowserRouter([
             {
               path:"cart",
               element:<Cart></Cart>  
+            },
+            {
+              path:"payment",
+              element:<Payment></Payment>
             },
             // admin route
             {

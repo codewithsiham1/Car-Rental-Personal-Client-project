@@ -5,16 +5,20 @@ import { PiBriefcaseMetalThin } from 'react-icons/pi';
 import { SiSession } from 'react-icons/si';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
+import UseAdmin from '../../Hooks/UseAdmin/UseAdmin';
+
+
 
 const Dashboard = () => {
   const {userRole}=useContext(Authcontext)
+ 
 
     return (
         <div className='flex my-10'>
             {/* dashboard sidebar */}
             <div className='w-64 min-h-full bg-orange-400'>
              <ul className='menu p-4'>
-          {userRole === 'admin' ? (
+           {userRole === 'admin'  ? (
             <>
               <li>
                 <NavLink to="/dashboard/admin/home">
@@ -61,7 +65,7 @@ const Dashboard = () => {
               </li>
             </>
           ) : (
-            /* student */
+            
             <>
               <li>
                 <NavLink to="/dashboard/student/home">
@@ -84,11 +88,11 @@ const Dashboard = () => {
                 </NavLink>
               </li>
             </>
-          )}
+          )} 
 
           <div className="divider before:bg-white after:bg-white"></div>
 
-          {/* common Home link */}
+         
           <li>
             <NavLink to="/">
               <IoHomeSharp /><span> Home</span>
@@ -96,7 +100,7 @@ const Dashboard = () => {
           </li>
         </ul>
             </div>
-            {/* dashboard content */}
+            
             <div className='flex-1'>
                 <Outlet></Outlet>
             </div>

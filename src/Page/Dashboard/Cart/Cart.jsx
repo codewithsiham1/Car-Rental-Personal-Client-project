@@ -4,6 +4,7 @@ import { MdDelete } from 'react-icons/md';
 import Swal from 'sweetalert2';
 import { axiosSecure } from '../../../Hooks/UseaxiosSecure/UseAxiosSecure';
 import { toast } from 'react-toastify';
+import { NavLink } from 'react-router-dom';
 
 const Cart = () => {
     const [cart,refetch]=Usecart()
@@ -35,7 +36,7 @@ const Cart = () => {
            <div className='flex flex-row justify-around my-10'>
            <h2 className="text-2xl font-bold">Total Orders:{cart.length}</h2>
            <h2 className='text-2xl font-bold'>Total Price:{totalprice}</h2>
-           <button className='btn btn-outline'>Pay</button>
+          { cart.length ? <NavLink to="/dashboard/payment"><button  className='btn btn-outline'>Pay</button></NavLink>:<button disabled  className='btn btn-outline'>Pay</button>}
            </div>
            {/* table */}
            <div className="overflow-x-auto">

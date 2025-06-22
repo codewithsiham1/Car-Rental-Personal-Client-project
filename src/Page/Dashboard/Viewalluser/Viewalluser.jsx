@@ -11,6 +11,8 @@ const Viewalluser = () => {
     const {data:user=[],refetch}=useQuery({
         queryKey:['user'],
         queryFn:async()=>{
+          const token = localStorage.getItem('access-token');
+          console.log('Access Token:', token); 
           const res=await axiosSecure.get('/user');
           return res.data
         }
