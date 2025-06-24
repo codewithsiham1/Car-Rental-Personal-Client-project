@@ -24,6 +24,7 @@ import TutorMaterials from "../Page/DashboardTutor/TutorMaterials/TutorMaterials
 import MyBookedSessions from "../Page/DashboardStudent/MyBookedSessions/MyBookedSessions";
 import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
 import Payment from "../Page/Dashboard/Payment/Payment";
+import PaymentHistory from "../Page/Dashboard/PaymentHistory/PaymentHistory";
 
 const router=createBrowserRouter([
     {
@@ -73,6 +74,10 @@ const router=createBrowserRouter([
             {
               path:"payment",
               element:<Payment></Payment>
+            },
+            {
+             path:"paymenthistory",
+             element:<PaymentHistory></PaymentHistory>
             },
             // admin route
             {

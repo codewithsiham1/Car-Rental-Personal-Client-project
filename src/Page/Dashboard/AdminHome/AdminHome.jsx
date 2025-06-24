@@ -1,10 +1,19 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
+import Useauth from '../../../Hooks/Useauth/Useauth';
 
 const AdminHome = () => {
+    const {user}=Useauth()
     return (
-        <div>
-            <h1>this is a admin home page</h1>
-        </div>
+       <>
+          <Helmet>
+        <title>Admin Dashboard | Smart StudyHub</title>
+      </Helmet>
+       <div>
+         <h1 className='text-2xl font-bold'>Hi ,Welcome <span>{user?.displayName ? user.displayName : 'Back'}</span></h1>
+          <p className="mt-4">Manage users, view reports, and control the system here.</p>
+       </div>
+       </>
     );
 };
 

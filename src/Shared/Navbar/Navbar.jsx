@@ -1,16 +1,22 @@
 import React, { useContext } from 'react';
 import logo from "../../assets/image/logo.jpg.png";
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
 import { FaCartPlus } from 'react-icons/fa';
 import Usecart from '../../Hooks/Usecart/Usecart';
+import { toast } from 'react-toastify';
 
 const Navbar = () => {
     const {user,logOut,updateprofile,userRole}=useContext(Authcontext)
     const [cart]=Usecart()
+    const navigate=useNavigate()
     const handleLogout=()=>{
       logOut()
-      .then(()=>{})
+      .then(()=>{
+          localStorage.removeItem('access-token');
+          toast.success("Logout successful!");
+    navigate('/login');
+      })
       .catch((error)=>{
         console.log(error)
       })

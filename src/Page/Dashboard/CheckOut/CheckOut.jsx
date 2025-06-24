@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import UseAxiosSecure from '../../../Hooks/UseaxiosSecure/UseAxiosSecure';
 import Usecart from '../../../Hooks/Usecart/Usecart';
 import Useauth from '../../../Hooks/Useauth/Useauth';
+import { toast } from 'react-toastify';
 
 const CheckOut = () => {
     const [error,setError]=useState('')
@@ -15,7 +16,7 @@ const CheckOut = () => {
     const {user}=Useauth()
     const [transtionId,setTranstionId]=useState('')
     useEffect(()=>{
-     axiosSecure.post('/create-payment-intent',{price:totalprice})
+        axiosSecure.post('/create-payment-intent',{price:totalprice})
      .then((res)=>{
         console.log(res.data.clientSecret)
         setClientSecret(res.data.clientSecret)
@@ -66,10 +67,14 @@ const CheckOut = () => {
                 price:totalprice,
                 date:new Date(),
                 transtionId:paymentIntent.id,
-                cartId:cart.map(item=>item._id)
+                cartId:cart.map(item=>item._id),
+                status: paymentIntent.status,
             }
-           const res=await axiosSecure.post('/payments',payment)
-           console.log('payment saved',res)
+           const res=await axiosSecure.post('/payment',payment)
+           console.log('payment saved',res.data)
+           if(res.data?.insertedId){
+            toast.success("Thanks For Your Payment")
+           }
         }
     }
     }

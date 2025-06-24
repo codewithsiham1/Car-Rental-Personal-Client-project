@@ -29,8 +29,16 @@ const Login = () => {
     const password = form.password.value;
 
     signIn(email, password)
-      .then((result) => {
-     
+      .then(async(result) => {
+      const loogedUser=result.user
+      // backend thaky jwt token
+      const response=await fetch('http://localhost:5000/jwt',{
+        method:'post',
+        headers: { 'Content-Type': 'application/json' },
+        body:JSON.stringify({email:loogedUser.email})
+      })
+      const data=await response.json();
+      localStorage.setItem('access-token',data.token)
         toast.success('Login successful!');
         navigate(from, { replace: true });
       })

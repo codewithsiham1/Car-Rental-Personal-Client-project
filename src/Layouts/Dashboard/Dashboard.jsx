@@ -40,6 +40,11 @@ const Dashboard = () => {
                   <FaBookOpen /><span> View all materials</span>
                 </NavLink>
               </li>
+              <li>
+                <NavLink to="/dashboard/paymenthistory">
+                  <FaBookOpen /><span>Payment History</span>
+                </NavLink>
+              </li>
             </>
           ) : userRole === 'tutor' ? (
             <>
