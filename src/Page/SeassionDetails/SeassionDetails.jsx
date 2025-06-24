@@ -34,9 +34,11 @@ const SeassionDetails = () => {
     sessionId:session._id,
     studentEmail:user?.email,
     tutorEmail:session.tutorEmail ||"unknown",
+    tutorName: session.tutorName || "unknown", 
     sessionTitle:session.title,
     registrationFee:session.registrationFee,
-    status:'pending'
+    status:'pending',
+    timestamp: new Date()
    };
    if(session.registrationFee===0){
     // free booking save to directly

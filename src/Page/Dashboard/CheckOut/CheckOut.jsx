@@ -74,6 +74,21 @@ const CheckOut = () => {
            console.log('payment saved',res.data)
            if(res.data?.insertedId){
             toast.success("Thanks For Your Payment")
+            for (const item of cart) {
+    const bookingInfo = {
+      sessionId: item.sessionId,
+      studentEmail: user.email,
+      tutorEmail: item.tutorEmail || "unknown",
+      tutorName: item.tutorName || "unknown",
+      sessionTitle: item.title || "Untitled",
+      registrationFee: item.price,
+      status: "paid",
+      timestamp: new Date(),
+    };
+
+    
+    await axiosSecure.post('/bookedSession', bookingInfo);
+  }
            }
         }
     }
