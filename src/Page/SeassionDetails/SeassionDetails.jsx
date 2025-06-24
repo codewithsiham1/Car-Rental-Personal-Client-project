@@ -4,6 +4,7 @@ import loader from "../../assets/image/loader3.gif";
 import { FcRating } from 'react-icons/fc';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
 import { toast } from 'react-toastify';
+import Sectionreview from '../Sectionreview/Sectionreview';
 
 const SeassionDetails = () => {
   const [session, setSession] = useState(null);
@@ -109,6 +110,7 @@ const SeassionDetails = () => {
           {isDisabled ? 'Registration Closed' : 'Book Now'}
         </button>
       </div>
+      <Sectionreview></Sectionreview>
     </div>
   );
 };
