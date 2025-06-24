@@ -23,7 +23,7 @@ const SeassionDetails = () => {
   }, [id]);
 
   const isOngoing = () => {
-    if (!session) return false; // 🛑 session null হলে false return
+    if (!session) return false; 
     const start = new Date(session.registrationStart).getTime();
     const end = new Date(session.registrationEnd).getTime();
     return currentDate.getTime() >= start && currentDate.getTime() <= end;
@@ -50,7 +50,7 @@ const SeassionDetails = () => {
       toast.success('🎉 Session Booked for Free!')
      }
    }else{
-  navigate(`/payment/${session._id}`)
+  navigate(`/dashboard/payment/${session._id}`)
    }
   };
 

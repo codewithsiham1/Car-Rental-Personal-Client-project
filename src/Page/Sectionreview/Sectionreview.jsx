@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 const Sectionreview = () => {
      const { id: sessionId } = useParams();
       const [reviews, setReviews] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:5000/reviews') // তোমার review API endpoint
+    fetch('http://localhost:5000/reviews') 
       .then(res => res.json())
       .then(data => {
         const filtered = data.filter((rev) => rev.sessionId === sessionId);
