@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FaBookOpen, FaCalendarAlt, FaCalendarCheck, FaHome, FaShoppingCart, FaStickyNote, FaUpload, FaUserAlt } from 'react-icons/fa';
+import { FaBookOpen, FaCalendarAlt, FaCalendarCheck, FaHome, FaPlusCircle, FaShoppingCart, FaStickyNote, FaUpload, FaUserAlt } from 'react-icons/fa';
 import { IoHomeSharp } from 'react-icons/io5';
 import { PiBriefcaseMetalThin } from 'react-icons/pi';
 import { SiSession } from 'react-icons/si';
@@ -74,12 +74,17 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink to="/dashboard/student/home">
-                  <FaShoppingCart /><span> Student Home</span>
+                   <FaHome /><span> Student Home</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/student/booked-sessions">
-                  <FaCalendarCheck /><span> My Booked Sessions</span>
+                   <FaCalendarCheck /><span> My Booked Sessions</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/student/create-note">
+                   <FaPlusCircle /><span> Create note</span>
                 </NavLink>
               </li>
               <li>
@@ -89,7 +94,7 @@ const Dashboard = () => {
               </li>
               <li>
                 <NavLink to="/dashboard/student/materials">
-                  <	FaBookOpen /><span> My Materials</span>
+                  <FaBookOpen /><span> My Materials</span>
                 </NavLink>
               </li>
             </>

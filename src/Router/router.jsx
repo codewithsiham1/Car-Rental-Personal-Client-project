@@ -25,6 +25,7 @@ import MyBookedSessions from "../Page/DashboardStudent/MyBookedSessions/MyBooked
 import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
 import Payment from "../Page/Dashboard/Payment/Payment";
 import PaymentHistory from "../Page/Dashboard/PaymentHistory/PaymentHistory";
+import CreateNote from "../Page/DashboardStudent/CrateNote/CreateNote";
 
 const router=createBrowserRouter([
     {
@@ -127,6 +128,10 @@ const router=createBrowserRouter([
           {
            path:"student/notes",
            element:<MyNotes></MyNotes>
+          },
+          {
+          path:"student/create-note",
+          element:<CreateNote></CreateNote>
           },
           {
           path:"student/materials",

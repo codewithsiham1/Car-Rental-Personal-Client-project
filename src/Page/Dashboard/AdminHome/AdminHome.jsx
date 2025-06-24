@@ -7,7 +7,7 @@ const AdminHome = () => {
     return (
        <>
           <Helmet>
-        <title>Admin Dashboard | Smart StudyHub</title>
+        <title>Admin Home Dashboard | Smart StudyHub</title>
       </Helmet>
        <div className='flex flex-col justify-center items-center'>
          <h1 className='text-2xl font-bold text-blue-400'>Hi ,Welcome <span>{user?.displayName ? user.displayName : 'Back'}</span></h1>

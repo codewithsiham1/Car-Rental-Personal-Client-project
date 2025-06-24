@@ -3,12 +3,12 @@ import { useParams } from "react-router-dom";
 
 const ReviewSection = () => {
   const { sessionId } = useParams(); // URL থেকে sessionId নিবে
-  const [reviews, setReviews] = useState([]);
-
+const [reviews, setReviews] = useState([]);
   useEffect(() => {
     fetch("/reviews.json")
       .then((res) => res.json())
       .then((data) => {
+        
         setReviews(data);
       })
       .catch(() => setReviews([]));

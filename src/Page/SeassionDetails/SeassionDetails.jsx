@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import loader from "../../assets/image/loader3.gif";
 import { FcRating } from 'react-icons/fc';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
@@ -10,7 +10,8 @@ const SeassionDetails = () => {
   const { id } = useParams();
   const currentDate = new Date();
   const { user, userRole } = useContext(Authcontext);
-
+ const navigate=useNavigate();
+ 
   useEffect(() => {
     fetch("/Study.json")
       .then(res => res.json())
@@ -27,12 +28,29 @@ const SeassionDetails = () => {
     return currentDate.getTime() >= start && currentDate.getTime() <= end;
   };
 
-  const handleBooking = () => {
-    if (session.registrationFee === 0) {
-      toast.success("🎉 Booked for Free");
-    } else {
-      toast.error("💳 Redirecting to Payment");
-    }
+  const handleBooking =async () => {
+   const bookingInfo={
+    sessionId:session._id,
+    studentEmail:user?.email,
+    tutorEmail:session.tutorEmail ||"unknown",
+    sessionTitle:session.title,
+    registrationFee:session.registrationFee,
+    status:'pending'
+   };
+   if(session.registrationFee===0){
+    // free booking save to directly
+     const res=await fetch('http://localhost:5000/bookedSession',{
+      method:"post",
+      headers:{'content-Type':'application/json'},
+      body:JSON.stringify(bookingInfo)
+     })
+     const result=await res.json();
+     if(result.insertedId){
+      toast.success('🎉 Session Booked for Free!')
+     }
+   }else{
+  navigate(`/payment/${session._id}`)
+   }
   };
 
   // 🛡️ Booking Button disable condition
