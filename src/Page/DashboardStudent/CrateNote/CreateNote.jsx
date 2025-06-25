@@ -1,16 +1,26 @@
 import { useContext } from "react";
 import { Authcontext } from "../../../Providers/Authprovider/Authprovider";
 
+import { toast } from "react-toastify";
+import UseAxiosPublic from "../../../Hooks/UseAxiosPublic/UseAxiosPublic";
+
 
 const CreateNote = () => {
     const {user}=useContext(Authcontext)
-    const handleSubmit=(event)=>{
+    const axiospublic=UseAxiosPublic()
+    const handleSubmit=async(event)=>{
         event.preventDefault()
        const form=event.target;
        const email=user?.email;
        const title=form.title.value;
        const description=form.description.value;
-       console.log(email,title,description)
+       const note={email,title,description}
+       const response=await axiospublic.post('/notes',note);
+       if(response.data.insertedId){
+        toast.success('Your note has been saved successfully Created.')
+       }else{
+        toast.error('Something went wrong. Try again!')
+       }
     }
     return (
         <div >
