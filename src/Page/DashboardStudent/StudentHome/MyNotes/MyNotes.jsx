@@ -5,9 +5,11 @@ import { useQuery } from '@tanstack/react-query';
 import { FaEdit, FaTrashAlt } from 'react-icons/fa';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 const MyNotes = () => {
     const {user}=Useauth();
+    const navigate=useNavigate()
     const axiossecure=UseAxiosSecure();
     // tanstackquery
     const {data:notes=[],isLoading,refetch }=useQuery({
@@ -58,14 +60,14 @@ const MyNotes = () => {
        <div className='mt-2 flex gap-3'>
   <button
                   className="btn btn-sm btn-error text-white"
-                  onClick={() => handledelete(note._id)}
+                  onClick={() =>handledelete(note._id)}
                 >
                   <FaTrashAlt /> Delete
                 </button>
                 <button
                   className="btn btn-sm btn-outline"
                   // implement update later
-                  onClick={() => toast.info("Update feature coming soon")}
+                  onClick={() =>navigate(`/dashboard/student/update-note/${note._id}`)}
                 >
                   <FaEdit/> Update
                 </button>

@@ -26,6 +26,7 @@ import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
 import Payment from "../Page/Dashboard/Payment/Payment";
 import PaymentHistory from "../Page/Dashboard/PaymentHistory/PaymentHistory";
 import CreateNote from "../Page/DashboardStudent/CrateNote/CreateNote";
+import UpdateNote from "../Page/DashboardStudent/UpdateNote/UpdateNote";
 
 const router=createBrowserRouter([
     {
@@ -137,6 +138,10 @@ const router=createBrowserRouter([
           path:"student/materials",
           element:<StudentMetarils></StudentMetarils>
           },
+          {
+            path:"student/update-note/:id",
+            element:<UpdateNote></UpdateNote>
+          }
         ]
     }
 ])
