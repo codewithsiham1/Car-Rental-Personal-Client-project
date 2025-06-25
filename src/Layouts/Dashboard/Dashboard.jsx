@@ -6,6 +6,7 @@ import { SiSession } from 'react-icons/si';
 import { NavLink, Outlet } from 'react-router-dom';
 import { Authcontext } from '../../Providers/Authprovider/Authprovider';
 import UseAdmin from '../../Hooks/UseAdmin/UseAdmin';
+import { MdAddCircleOutline } from 'react-icons/md';
 
 
 
@@ -50,12 +51,17 @@ const Dashboard = () => {
             <>
               <li>
                 <NavLink to="/dashboard/tutor/home">
-                  <FaShoppingCart /><span> Tutor Home</span>
+                  <FaHome /><span> Tutor Home</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/dashboard/tutor/create-session">
+                <MdAddCircleOutline/><span> Create Study Sessions</span>
                 </NavLink>
               </li>
               <li>
                 <NavLink to="/dashboard/tutor/sessions">
-                  <	FaCalendarCheck/><span> My Sessions</span>
+                  <	FaCalendarCheck/><span> My Study Sessions</span>
                 </NavLink>
               </li>
               <li>

@@ -27,6 +27,7 @@ import Payment from "../Page/Dashboard/Payment/Payment";
 import PaymentHistory from "../Page/Dashboard/PaymentHistory/PaymentHistory";
 import CreateNote from "../Page/DashboardStudent/CrateNote/CreateNote";
 import UpdateNote from "../Page/DashboardStudent/UpdateNote/UpdateNote";
+import CreateSession from "../Page/DashboardTutor/CreateSession/CreateSession";
 
 const router=createBrowserRouter([
     {
@@ -107,6 +108,10 @@ const router=createBrowserRouter([
           {
             path:"tutor/sessions",
             element:<MySessions></MySessions>
+          },
+          {
+          path:"tutor/create-session",
+          element:<CreateSession></CreateSession>
           },
           {
            path:"tutor/materials/upload",
