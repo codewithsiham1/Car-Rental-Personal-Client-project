@@ -10,8 +10,9 @@ const StudySession = () => {
     const [study, setStudy] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const currentDate = new Date();
-      const navigate=useNavigate();
-      const {user}=useContext(Authcontext)
+    const navigate = useNavigate();
+    const { user } = useContext(Authcontext);
+
     useEffect(() => {
         fetch("Study.json")
             .then(res => res.json())
@@ -33,14 +34,15 @@ const StudySession = () => {
     const filteredCourses = selectedCategory === "All"
         ? study
         : study.filter(item => item.category === selectedCategory);
-// read more button
-const handleReadmore=(sessionId)=>{
-    if(!user){
-        navigate('/login')
-    }else{
-        navigate(`/session/${sessionId}`)
-    }
-}
+
+    const handleReadmore = (sessionId) => {
+        if (!user) {
+            navigate('/login');
+        } else {
+            navigate(`/session/${sessionId}`);
+        }
+    };
+
     return (
         <>
             <Sectiontitle
@@ -50,7 +52,7 @@ const handleReadmore=(sessionId)=>{
                 subHeadingColor="text-black"
             />
 
-            {/* 🔘 Stylish Category Buttons */}
+            {/* Category Buttons */}
             <div className='flex flex-wrap gap-3 justify-center mb-6 px-4'>
                 {categories.map((cat, idx) => (
                     <button
@@ -66,17 +68,21 @@ const handleReadmore=(sessionId)=>{
                 ))}
             </div>
 
-            {/* 🟦 Glowing Course Cards */}
-            <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4 py-8'>
+            {/* Course Cards Grid */}
+            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6 px-4 py-8'>
                 {filteredCourses.map(session => (
                     <div
                         key={session._id}
-                        className='bg-white rounded-xl shadow-md p-4 border hover:shadow-xl hover:border-blue-500 transition duration-300 hover:scale-[1.02]'
+                        className='bg-white rounded-xl shadow-md p-3 sm:p-4 border hover:shadow-xl hover:border-blue-500 transition duration-300 hover:scale-[1.02]'
                     >
-                        <img className='w-full h-48 object-cover rounded-md mb-3' src={session.image} alt={session.title} />
-                        <h3 className='text-xl font-semibold mb-1'>{session.title}</h3>
-                        <p className='text-sm text-gray-600 mb-2'>{session.description}</p>
-                        <div className='flex flex-wrap justify-between items-center text-sm text-gray-700 mb-1'>
+                        <img
+                            className='w-full h-40 sm:h-48 object-cover rounded-md mb-3'
+                            src={session.image}
+                            alt={session.title}
+                        />
+                        <h3 className='text-lg sm:text-xl font-semibold mb-1'>{session.title}</h3>
+                        <p className='text-xs sm:text-sm text-gray-600 mb-2'>{session.description}</p>
+                        <div className='flex flex-wrap justify-between items-center text-xs sm:text-sm text-gray-700 mb-1'>
                             <p className='flex gap-2 items-center'>
                                 <span className='flex gap-0.5'>
                                     <FcRating /><FcRating /><FcRating /><FcRating /><FcRating />
@@ -85,18 +91,23 @@ const handleReadmore=(sessionId)=>{
                             </p>
                             <p className='bg-blue-100 text-blue-700 py-0.5 px-2 rounded-full text-xs font-semibold'>{session.category}</p>
                         </div>
-                        <div className='flex justify-between items-center text-sm text-gray-600'>
+                        <div className='flex justify-between items-center text-xs sm:text-sm text-gray-600'>
                             <p className='flex items-center gap-1'><IoTimeOutline /> {session.videoTime}</p>
                             <p className='flex items-center gap-1'><IoMdBookmarks /> {session.lectures} lectures</p>
                         </div>
                         <div className='flex justify-between items-center mt-3'>
-                            <p className={`text-xs font-semibold px-3 py-1 rounded-full 
+                            <p className={`text-xs font-semibold px-3 py-1 rounded-full
                                 ${isOngoing(session.registrationStart, session.registrationEnd)
                                     ? 'bg-green-100 text-green-700'
                                     : 'bg-red-100 text-red-700'}`}>
                                 {isOngoing(session.registrationStart, session.registrationEnd) ? 'Ongoing' : "Closed"}
                             </p>
-                            <button onClick={()=>handleReadmore(session._id)} className='btn btn-outline btn-sm rounded-full hover:scale-105 transition'>Read More</button>
+                            <button
+                                onClick={() => handleReadmore(session._id)}
+                                className='btn btn-outline rounded-full hover:scale-105 transition text-xs sm:text-sm'
+                            >
+                                Read More
+                            </button>
                         </div>
                     </div>
                 ))}

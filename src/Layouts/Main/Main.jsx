@@ -4,14 +4,23 @@ import { Outlet, useLocation } from 'react-router-dom';
 import Footer from '../../Page/Footer/Footer';
 
 const Main = () => {
-    const location=useLocation()
-    console.log(location)
-    const noheaderFooter=location.pathname.includes('login')||location.pathname.includes('register')
+    const location = useLocation();
+    const noheaderFooter =
+        location.pathname.includes('login') ||
+        location.pathname.includes('register');
+
     return (
-        <div>
-            { noheaderFooter || <Navbar></Navbar>}
-            <Outlet></Outlet>
-           {noheaderFooter || <Footer></Footer>}
+        <div className="flex flex-col min-h-screen">
+            {/* Navbar */}
+            {!noheaderFooter && <Navbar />}
+
+            {/* Main content */}
+            <main className="flex-grow container mx-auto px-4 sm:px-6 md:px-8">
+                <Outlet />
+            </main>
+
+            {/* Footer */}
+            {!noheaderFooter && <Footer />}
         </div>
     );
 };

@@ -13,9 +13,7 @@ const MySessions = () => {
     queryKey: ['tutorSessions', user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      const res = await axiosSecure.get(
-        `/sessions?tutorEmail=${user.email}`
-      );
+      const res = await axiosSecure.get(`/sessions?tutorEmail=${user.email}`);
       return res.data.filter(
         (session) => session.status === 'approved' || session.status === 'rejected'
       );
@@ -43,46 +41,49 @@ const MySessions = () => {
     mutation.mutate(id);
   };
 
-  if (isLoading) return <p>Loading sessions...</p>;
-  if (error) return <p>Error loading sessions.</p>;
+  if (isLoading) return <p className="text-center mt-6">Loading sessions...</p>;
+  if (error) return <p className="text-center mt-6 text-red-600">Error loading sessions.</p>;
 
   return (
     <div className="max-w-3xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4">My Study Sessions</h2>
+      <h2 className="text-2xl font-semibold mb-4 text-center">My Study Sessions</h2>
 
       {sessions.length === 0 ? (
-        <p>No approved or rejected sessions found.</p>
+        <p className="text-center">No approved or rejected sessions found.</p>
       ) : (
-        <table className="table-auto w-full border-collapse border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border border-gray-300 p-2 text-left">Title</th>
-              <th className="border border-gray-300 p-2 text-left">Status</th>
-              <th className="border border-gray-300 p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sessions.map((session) => (
-              <tr key={session._id}>
-                <td className="border border-gray-300 p-2">{session.sessionTitle}</td>
-                <td className="border border-gray-300 p-2 capitalize">{session.status}</td>
-                <td className="border border-gray-300 p-2 text-center">
-                  {session.status === 'rejected' ? (
-                    <button
-                      disabled={mutation.isLoading}
-                      onClick={() => handleResendRequest(session._id)}
-                      className="btn btn-sm btn-primary"
-                    >
-                      {mutation.isLoading ? 'Sending...' : 'Resend Approval Request'}
-                    </button>
-                  ) : (
-                    <span className="text-gray-500">No action needed</span>
-                  )}
-                </td>
+        // Responsive wrapper for horizontal scroll on small screens
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full border-collapse border border-gray-300 min-w-[600px]">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="border border-gray-300 p-2 text-left">Title</th>
+                <th className="border border-gray-300 p-2 text-left">Status</th>
+                <th className="border border-gray-300 p-2 text-center">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sessions.map((session) => (
+                <tr key={session._id} className="hover:bg-gray-50">
+                  <td className="border border-gray-300 p-2">{session.sessionTitle}</td>
+                  <td className="border border-gray-300 p-2 capitalize">{session.status}</td>
+                  <td className="border border-gray-300 p-2 text-center">
+                    {session.status === 'rejected' ? (
+                      <button
+                        disabled={mutation.isLoading}
+                        onClick={() => handleResendRequest(session._id)}
+                        className="btn btn-sm btn-primary"
+                      >
+                        {mutation.isLoading ? 'Sending...' : 'Resend Approval Request'}
+                      </button>
+                    ) : (
+                      <span className="text-gray-500">No action needed</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );

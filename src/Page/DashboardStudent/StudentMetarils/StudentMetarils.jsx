@@ -8,7 +8,7 @@ const StudentMaterials = () => {
   const axiosSecure = UseAxiosSecure();
   const [selectedSessionId, setSelectedSessionId] = useState('');
 
-  // ✅ Fetch Booked Sessions using TanStack Query
+  // Fetch Booked Sessions
   const { data: bookedSessions = [], isLoading: loadingSessions } = useQuery({
     queryKey: ['bookedSessions', user?.email],
     enabled: !!user?.email,
@@ -18,7 +18,7 @@ const StudentMaterials = () => {
     },
   });
 
-  // ✅ Fetch Materials based on selected session
+  // Fetch Materials for selected session
   const {
     data: materials = [],
     isLoading: loadingMaterials,
@@ -33,46 +33,48 @@ const StudentMaterials = () => {
 
   return (
     <div className="p-4 max-w-5xl mx-auto">
-      <h2 className="text-xl font-semibold mb-4">Your Booked Sessions</h2>
+      <h2 className="text-xl font-semibold mb-4 text-center sm:text-left">Your Booked Sessions</h2>
 
       {loadingSessions ? (
-        <p>Loading sessions...</p>
+        <p className="text-center">Loading sessions...</p>
       ) : (
-        <ul className="mb-6">
+        <ul className="mb-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
           {bookedSessions.map((session) => (
-           <li
-           key={session._id}
-           className={`cursor-pointer p-3 mb-2 rounded border ${
-             selectedSessionId === session.sessionId ? 'bg-blue-200' : 'bg-white'
-           }`}
-           onClick={() => setSelectedSessionId(session.sessionId)}
-         >
-           {session.sessionTitle}
-         </li>
+            <li
+              key={session._id}
+              className={`cursor-pointer p-3 rounded border transition-colors duration-300 ${
+                selectedSessionId === session.sessionId
+                  ? 'bg-blue-200 border-blue-500'
+                  : 'bg-white hover:bg-gray-100 border-gray-300'
+              }`}
+              onClick={() => setSelectedSessionId(session.sessionId)}
+            >
+              <p className="text-center sm:text-left font-medium">{session.sessionTitle}</p>
+            </li>
           ))}
         </ul>
       )}
 
       {selectedSessionId && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Study Materials</h3>
+          <h3 className="text-lg font-semibold mb-3 text-center sm:text-left">Study Materials</h3>
 
           {loadingMaterials ? (
-            <p>Loading materials...</p>
+            <p className="text-center">Loading materials...</p>
           ) : materials.length === 0 ? (
-            <p>No materials found for this session.</p>
+            <p className="text-center">No materials found for this session.</p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {materials.map((material) => (
                 <div
                   key={material._id}
-                  className="border rounded p-3 shadow-sm"
+                  className="border rounded p-3 shadow-sm flex flex-col"
                 >
                   <h4 className="font-medium mb-2">{material.title || 'Material'}</h4>
                   <img
                     src={material.imageUrl}
                     alt={material.title}
-                    className="mb-2 w-full h-auto rounded"
+                    className="mb-2 w-full h-auto rounded object-cover max-h-48"
                   />
                   <a
                     href={material.imageUrl}
@@ -81,7 +83,6 @@ const StudentMaterials = () => {
                   >
                     Download Image
                   </a>
-                  <br />
                   {material.link && (
                     <a
                       href={material.link}

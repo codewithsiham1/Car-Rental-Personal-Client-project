@@ -10,7 +10,7 @@ import ErrorElement from "../Page/ErrorElement/ErrorElement";
 import Privateroute from "./Privateroute";
 import SeassionDetails from "../Page/SeassionDetails/SeassionDetails";
 import Dashboard from "../Layouts/Dashboard/Dashboard";
-import Cart from "../Page/Dashboard/Cart/Cart";
+
 import AdminHome from "../Page/Dashboard/AdminHome/AdminHome";
 import TutorHome from "../Page/DashboardTutor/TutorHome/TutorHome";
 import StudentHome from "../Page/DashboardStudent/StudentHome/StudentHome";
@@ -24,7 +24,7 @@ import TutorMaterials from "../Page/DashboardTutor/TutorMaterials/TutorMaterials
 import MyBookedSessions from "../Page/DashboardStudent/MyBookedSessions/MyBookedSessions";
 import Viewalluser from "../Page/Dashboard/Viewalluser/Viewalluser";
 import Payment from "../Page/Dashboard/Payment/Payment";
-import PaymentHistory from "../Page/Dashboard/PaymentHistory/PaymentHistory";
+
 import CreateNote from "../Page/DashboardStudent/CrateNote/CreateNote";
 import UpdateNote from "../Page/DashboardStudent/UpdateNote/UpdateNote";
 import CreateSession from "../Page/DashboardTutor/CreateSession/CreateSession";
@@ -70,18 +70,12 @@ const router=createBrowserRouter([
         element:<Privateroute><Dashboard></Dashboard></Privateroute>,
         children:[
             // coomon
-            {
-              path:"cart",
-              element:<Cart></Cart>  
-            },
+           
             {
               path:"payment/:id",
               element:<Payment></Payment>
             },
-            {
-             path:"paymenthistory",
-             element:<PaymentHistory></PaymentHistory>
-            },
+          
             // admin route
             {
           path:"admin/home",

@@ -1,123 +1,122 @@
-import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
-import React, { useEffect, useState } from 'react';
-import UseAxiosSecure from '../../../Hooks/UseaxiosSecure/UseAxiosSecure';
-import Usecart from '../../../Hooks/Usecart/Usecart';
-import Useauth from '../../../Hooks/Useauth/Useauth';
-import { toast } from 'react-toastify';
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import { useEffect, useState } from "react";
+import UseAxiosSecure from "../../../Hooks/UseaxiosSecure/UseAxiosSecure";
+import UseSession from "../../../Hooks/UseSession/UseSession";
+import Useauth from "../../../Hooks/Useauth/Useauth";
+import { toast } from "react-toastify";
 
 const CheckOut = () => {
-  const [error, setError] = useState('');
   const stripe = useStripe();
   const elements = useElements();
-  const axiosSecure = UseAxiosSecure();
-  const [cart, refetch] = Usecart();
-  const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+  const [clientSecret, setClientsecret] = useState('');
+  const [error, setError] = useState();
   const { user } = Useauth();
-  const [transactionId, setTransactionId] = useState('');
-  const [clientSecret, setClientSecret] = useState('');
+  const axiosSecure = UseAxiosSecure();
+  const [, sessions = []] = UseSession();
+  const [transtionId, setTranstionId] = useState('');
 
-  // Get Stripe clientSecret
+  // calculate paid/free sessions
+  const totalPaidAmount = sessions.filter(item => item.registrationFee > 0)
+    .reduce((total, item) => total + item.registrationFee, 0);
+  const freeSessionCount = sessions.filter(item => item.registrationFee === 0).length;
+  const paidSessionCount = sessions.filter(item => item.registrationFee > 0).length;
+
+  // get client secret
   useEffect(() => {
-    if (totalPrice > 0) {
-      axiosSecure.post('/create-payment-intent', { price: totalPrice }).then(res => {
-        setClientSecret(res.data.clientSecret);
-      });
+    if (totalPaidAmount > 0) {
+      axiosSecure.post('/create-payment-intent', { price: totalPaidAmount })
+        .then((res) => {
+          if (res.data?.clientSecret) {
+            setClientsecret(res.data.clientSecret);
+          } else {
+            console.error("❌ No clientSecret in response", res.data);
+          }
+        });
     }
-  }, [axiosSecure, totalPrice]);
+  }, [axiosSecure, totalPaidAmount]);
 
+  // submit handler
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (!stripe || !elements) return;
+
     const card = elements.getElement(CardElement);
-    if (!card) return;
+    if (card === null) return;
 
     const { error, paymentMethod } = await stripe.createPaymentMethod({
       type: "card",
-      card,
+      card
     });
 
     if (error) {
+      console.log('payment error', error);
       setError(error.message);
-      return;
     } else {
       setError('');
     }
 
     const { paymentIntent, error: confirmError } = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
-        card,
+        card: card,
         billing_details: {
           email: user?.email || 'anonymous',
-          name: user?.displayName || 'anonymous',
-        },
-      },
+          name: user?.displayName || 'anonymous'
+        }
+      }
     });
 
     if (confirmError) {
-      console.log('Payment confirmation error', confirmError);
-      toast.error("Payment failed. Please try again.");
-      return;
-    }
-
-    if (paymentIntent.status === 'succeeded') {
-      setTransactionId(paymentIntent.id);
-
-      // Save payment info to DB
-      const payment = {
-        email: user.email,
-        price: totalPrice,
-        date: new Date(),
-        transactionId: paymentIntent.id,
-        cartId: cart.map(item => item._id),
-        status: 'paid',
-      };
-
-      try {
-        const res = await axiosSecure.post('/payment', payment);
-        if (res.data?.insertedId) {
-          toast.success("Payment Successful!");
-
-          // Delete all items from cart
-          for (const item of cart) {
-            await axiosSecure.delete(`/cart/${item._id}`);
-          }
-
-          refetch();
-        }
-      } catch (err) {
-        console.error("Error saving payment:", err);
-        toast.error("Something went wrong saving payment.");
+      console.log('confirm error');
+    } else {
+      if (paymentIntent.status === "succeeded") {
+        toast.success("🎉 Payment Successful!");
+        setTranstionId(paymentIntent.id);
       }
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <CardElement
-        options={{
-          style: {
-            base: {
-              fontSize: '16px',
-              color: '#424770',
-              '::placeholder': {
-                color: '#aab7c4',
+    <div className="max-w-xl mx-auto px-4 md:px-6 py-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center mb-6">Complete Your Payment</h2>
+      <form 
+        onSubmit={handleSubmit}
+        className="bg-white shadow-md rounded-lg p-4 sm:p-6 md:p-8 space-y-4"
+      >
+        <CardElement
+          options={{
+            style: {
+              base: {
+                fontSize: '16px',
+                color: '#424770',
+                '::placeholder': { color: '#aab7c4' },
               },
+              invalid: { color: '#9e2146' },
             },
-            invalid: {
-              color: '#9e2146',
-            },
-          },
-        }}
-      />
-      <button className='btn btn-primary my-2' type="submit" disabled={!stripe || !clientSecret}>
-        Pay
-      </button>
-      {error && <p className='text-red-500'>{error}</p>}
-      {transactionId && (
-        <p className="text-green-500">✅ Transaction ID: {transactionId}</p>
-      )}
-    </form>
+          }}
+        />
+        
+        <div className="bg-gray-50 p-4 rounded-md shadow-sm">
+          <p className="text-gray-700">✅ Paid Sessions: <strong>{paidSessionCount}</strong></p>
+          <p className="text-gray-700">🎁 Free Sessions: <strong>{freeSessionCount}</strong></p>
+          <p className="text-gray-900 font-semibold">💳 Total To Pay: ${totalPaidAmount}</p>
+        </div>
+
+        <button 
+          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-300 disabled:opacity-50"
+          type="submit" 
+          disabled={!stripe}
+        >
+          Pay ${totalPaidAmount}
+        </button>
+
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {transtionId && (
+          <p className="text-green-500 text-sm break-words">
+            ✅ Your Transaction ID: <strong>{transtionId}</strong>
+          </p>
+        )}
+      </form>
+    </div>
   );
 };
 

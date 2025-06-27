@@ -23,7 +23,7 @@ const SocialLogin = () => {
             .then(res => {
               console.log("User saved:", res.data);
               toast.success("Logged in with Google!");
-              // ✅ এখানে navigate করো
+              
               navigate('/');
             })
             .catch((err) => {

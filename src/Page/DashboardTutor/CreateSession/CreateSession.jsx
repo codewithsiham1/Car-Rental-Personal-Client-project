@@ -37,138 +37,144 @@ const CreateSession = () => {
 
     console.log(sessionData);
 
-    const res=await fetch("http://localhost:5000/sessions",{
-        method:"POST",
-        headers:{
-            'Content-Type':'application/json'
-        },
-        body:JSON.stringify(sessionData)
-    })
-    const data=await res.json();
+    const res = await fetch("http://localhost:5000/sessions", {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(sessionData)
+    });
+    const data = await res.json();
     if (data.insertedId) {
-        toast.success('Session created successfully!');
-        form.reset();
-      } else {
-        toast.error('Failed to create session');
-      }
+      toast.success('Session created successfully!');
+      form.reset();
+    } else {
+      toast.error('Failed to create session');
+    }
   };
 
   return (
-    <div>
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gray-50">
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 max-w-xl mx-auto p-4 bg-white rounded shadow"
+        className="space-y-6 w-full max-w-xl bg-white rounded-lg shadow-lg p-6 sm:p-8"
       >
-        <h2 className="text-xl font-semibold mb-4">Create Study Session</h2>
+        <h2 className="text-2xl font-semibold text-center mb-6">Create Study Session</h2>
 
         <div className="flex flex-col">
-          <label>Session Title</label>
+          <label className="mb-1 font-medium">Session Title</label>
           <input
             type="text"
             name="sessionTitle"
             placeholder="Session Title"
             required
-            className="input"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div className="flex flex-col">
-          <label>Tutor Name</label>
+          <label className="mb-1 font-medium">Tutor Name</label>
           <input
             type="text"
             name="tutorName"
             defaultValue={user?.displayName}
             readOnly
-            className="input bg-gray-100"
+            className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
           />
         </div>
 
         <div className="flex flex-col">
-          <label>Tutor Email</label>
+          <label className="mb-1 font-medium">Tutor Email</label>
           <input
             type="email"
             name="tutorEmail"
             defaultValue={user?.email}
             readOnly
-            className="input bg-gray-100"
+            className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
           />
         </div>
 
         <div className="flex flex-col">
-          <label>Description</label>
+          <label className="mb-1 font-medium">Description</label>
           <textarea
             name="description"
             placeholder="Session Description"
             required
-            className="textarea"
+            className="textarea textarea-bordered w-full resize-none"
+            rows={4}
           />
         </div>
 
-        <div className="flex flex-col">
-          <label>Registration Start Date</label>
-          <input
-            type="date"
-            name="registrationStart"
-            required
-            className="input"
-          />
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="flex flex-col">
+            <label className="mb-1 font-medium">Registration Start Date</label>
+            <input
+              type="date"
+              name="registrationStart"
+              required
+              className="input input-bordered w-full"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 font-medium">Registration End Date</label>
+            <input
+              type="date"
+              name="registrationEnd"
+              required
+              className="input input-bordered w-full"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 font-medium">Class Start Date</label>
+            <input
+              type="date"
+              name="classStart"
+              required
+              className="input input-bordered w-full"
+            />
+          </div>
+
+          <div className="flex flex-col">
+            <label className="mb-1 font-medium">Class End Date</label>
+            <input
+              type="date"
+              name="classEnd"
+              required
+              className="input input-bordered w-full"
+            />
+          </div>
         </div>
 
         <div className="flex flex-col">
-          <label>Registration End Date</label>
-          <input
-            type="date"
-            name="registrationEnd"
-            required
-            className="input"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>Class Start Date</label>
-          <input
-            type="date"
-            name="classStart"
-            required
-            className="input"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>Class End Date</label>
-          <input
-            type="date"
-            name="classEnd"
-            required
-            className="input"
-          />
-        </div>
-
-        <div className="flex flex-col">
-          <label>Session Duration</label>
+          <label className="mb-1 font-medium">Session Duration</label>
           <input
             type="text"
             name="duration"
             placeholder="Session Duration (e.g., 3 hours)"
             required
-            className="input"
+            className="input input-bordered w-full"
           />
         </div>
 
         <div className="flex flex-col">
-          <label>Registration Fee</label>
+          <label className="mb-1 font-medium">Registration Fee</label>
           <input
             type="number"
             name="registrationFee"
             value={0}
             readOnly
-            className="input bg-gray-100 cursor-not-allowed"
+            className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
           />
         </div>
 
         <input type="hidden" name="status" value="pending" />
 
-        <button type="submit" className="btn btn-primary">
+        <button
+          type="submit"
+          className="btn btn-primary w-full py-3 text-lg font-semibold"
+        >
           Create Session
         </button>
       </form>

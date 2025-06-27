@@ -8,21 +8,24 @@ import Middlecard from '../MiddleCard/Middlecard';
 import ReviewSection from '../ReviewSection/ReviewSection';
 
 const Home = () => {
-    return (
-        <div>
-              <Helmet>
-        <title>Home |Smart StudyHub </title>
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>Home | Smart StudyHub</title>
         <meta name="description" content="Study smarter with our collaborative platform." />
-        
       </Helmet>
-            <Banner></Banner>
-            <Card></Card>
-            <Studyseassion></Studyseassion>
-            <Middlecard></Middlecard>
-            <Tutorsection></Tutorsection>
-            <ReviewSection></ReviewSection>
-        </div>
-    );
+
+     
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        <Banner />
+        <Card />
+        <Studyseassion />
+        <Middlecard />
+        <Tutorsection />
+        <ReviewSection />
+      </div>
+    </div>
+  );
 };
 
 export default Home;

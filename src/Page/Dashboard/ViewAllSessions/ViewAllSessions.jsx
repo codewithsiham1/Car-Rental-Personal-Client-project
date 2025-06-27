@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-toastify';
-import loader from"../../../assets/image/loader3.gif"
+import loader from "../../../assets/image/loader3.gif";
+
 const ViewAllSessions = () => {
   const queryClient = useQueryClient();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -9,7 +10,6 @@ const ViewAllSessions = () => {
   const [isPaid, setIsPaid] = useState(false);
   const [amount, setAmount] = useState(0);
 
-  // Fetch sessions
   const { data: sessions = [], isLoading } = useQuery({
     queryKey: ['sessions'],
     queryFn: async () => {
@@ -18,19 +18,18 @@ const ViewAllSessions = () => {
     },
   });
 
-  // Open and close modal
   const openModal = (session) => {
     setSelectedSession(session);
     setIsPaid(false);
     setAmount(0);
     setIsModalOpen(true);
   };
+
   const closeModal = () => {
     setSelectedSession(null);
     setIsModalOpen(false);
   };
 
-  // Handle approve (PATCH)
   const handleApprove = async () => {
     if (isPaid && amount <= 0) {
       toast.error('Please enter a valid amount for paid session');
@@ -43,10 +42,7 @@ const ViewAllSessions = () => {
       const res = await fetch(`http://localhost:5000/sessions/${selectedSession._id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status: 'approved',
-          registrationFee,
-        }),
+        body: JSON.stringify({ status: 'approved', registrationFee }),
       });
 
       const result = await res.json();
@@ -63,7 +59,6 @@ const ViewAllSessions = () => {
     }
   };
 
-  // Handle reject (DELETE)
   const handleReject = async (id) => {
     try {
       const res = await fetch(`http://localhost:5000/sessions/${id}`, {
@@ -83,55 +78,59 @@ const ViewAllSessions = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      <h2 className="text-2xl font-semibold mb-4">Admin - Manage Study Sessions</h2>
+    <div className="max-w-6xl mx-auto p-4">
+      <h2 className="text-xl sm:text-2xl font-semibold mb-4 text-center">Admin - Manage Study Sessions</h2>
 
       {isLoading ? (
-        <p><img src={loader} alt="" /></p>
+        <div className="flex justify-center items-center h-40">
+          <img src={loader} alt="Loading..." className="w-12 h-12" />
+        </div>
       ) : (
-        <table className="table-auto w-full border border-gray-300">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="border p-2">Title</th>
-              <th className="border p-2">Tutor</th>
-              <th className="border p-2">Status</th>
-              <th className="border p-2">Fee</th>
-              <th className="border p-2">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sessions
-              .filter((s) => s.status === 'pending')
-              .map((session) => (
-                <tr key={session._id}>
-                  <td className="border p-2">{session.sessionTitle}</td>
-                  <td className="border p-2">{session.tutorName}</td>
-                  <td className="border p-2 capitalize">{session.status}</td>
-                  <td className="border p-2">${session.registrationFee || 0}</td>
-                  <td className="border p-2 space-x-2">
-                    <button onClick={() => openModal(session)} className="btn btn-sm btn-success">
-                      Approve
-                    </button>
-                    <button onClick={() => handleReject(session._id)} className="btn btn-sm btn-error">
-                      Reject
-                    </button>
-                  </td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto shadow rounded-lg">
+          <table className="w-full text-sm sm:text-base border border-gray-300">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-2 border">Title</th>
+                <th className="p-2 border">Tutor</th>
+                <th className="p-2 border">Status</th>
+                <th className="p-2 border">Fee</th>
+                <th className="p-2 border">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {sessions
+                .filter((s) => s.status === 'pending')
+                .map((session) => (
+                  <tr key={session._id} className="hover:bg-gray-50">
+                    <td className="p-2 border">{session.sessionTitle}</td>
+                    <td className="p-2 border">{session.tutorName}</td>
+                    <td className="p-2 border capitalize">{session.status}</td>
+                    <td className="p-2 border">${session.registrationFee || 0}</td>
+                    <td className="p-2 border space-x-2">
+                      <button onClick={() => openModal(session)} className="btn btn-sm btn-success">
+                        Approve
+                      </button>
+                      <button onClick={() => handleReject(session._id)} className="btn btn-sm btn-error">
+                        Reject
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       )}
 
-      {/* Approve Modal */}
+      {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="bg-white rounded p-6 w-96">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 px-4">
+          <div className="bg-white rounded-lg p-6 w-full max-w-md mx-auto shadow-md">
             <h3 className="text-lg font-semibold mb-4">Approve Session</h3>
 
             <div className="mb-3">
               <label className="block mb-1 font-medium">Is the session paid?</label>
               <select
-                className="input w-full"
+                className="input input-bordered w-full"
                 value={isPaid ? 'paid' : 'free'}
                 onChange={(e) => setIsPaid(e.target.value === 'paid')}
               >
@@ -146,7 +145,7 @@ const ViewAllSessions = () => {
                 <input
                   type="number"
                   min="1"
-                  className="input w-full"
+                  className="input input-bordered w-full"
                   value={amount}
                   onChange={(e) => setAmount(Number(e.target.value))}
                   required
@@ -154,11 +153,11 @@ const ViewAllSessions = () => {
               </div>
             )}
 
-            <div className="flex justify-end space-x-3">
+            <div className="flex justify-end space-x-3 mt-4">
               <button onClick={handleApprove} className="btn btn-primary">
                 Confirm
               </button>
-              <button onClick={closeModal} className="btn btn-secondary">
+              <button onClick={closeModal} className="btn btn-outline">
                 Cancel
               </button>
             </div>
