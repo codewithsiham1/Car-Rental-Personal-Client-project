@@ -47,7 +47,8 @@ const StudentMaterials = () => {
                   ? 'bg-blue-200 border-blue-500'
                   : 'bg-white hover:bg-gray-100 border-gray-300'
               }`}
-              onClick={() => setSelectedSessionId(session.sessionId)}
+              onClick={() => setSelectedSessionId(session.sessionId || session.session_id || session._id)}
+
             >
               <p className="text-center sm:text-left font-medium">{session.sessionTitle}</p>
             </li>
